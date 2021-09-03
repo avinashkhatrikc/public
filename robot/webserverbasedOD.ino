@@ -3,14 +3,14 @@
 const char* ssid = "Avinash";
 const char* password = "11111111";
 
-const int trig = 16;
-const int echo = 2;
-const int in1 = 14;
-const int in2 = 12;
-const int in3 = 13;
-const int in4 = 15;
-const int ENA= 5;
-const int ENB= 4;
+const int trig = D3;
+const int echo = D4;
+const int in1 = D5;
+const int in2 = D6;
+const int in3 = D7;
+const int in4 = D8;
+const int ENA= D2;
+const int ENB= D1;
 
 WiFiServer server(80);
 void setup() 
@@ -55,24 +55,6 @@ long dura, dis;
 
 void loop()
 { 
-  // Check if a client has connected
-  WiFiClient client = server.available();
-  if (!client) {
-    return;
-  }
- 
-  // Wait until the client sends some data
-  Serial.println("new client");
-  while(!client.available()){
-    delay(1);
-  }
- 
-  // Read the first line of the request
-  String request = client.readStringUntil('\r');
-  Serial.println(request);
-  client.flush();
-
-  
   analogWrite(ENA,85);
   analogWrite(ENB,85);
   digitalWrite(trig, LOW);
@@ -104,6 +86,23 @@ void loop()
     
   else
     {
+            // Check if a client has connected
+           WiFiClient client = server.available();
+           if (!client) {
+             return;
+           }
+
+           // Wait until the client sends some data
+           Serial.println("new client");
+           while(!client.available()){
+             delay(1);
+           }
+
+           // Read the first line of the request
+           String request = client.readStringUntil('\r');
+           Serial.println(request);
+           client.flush();
+
                // Match the request
            if (request.indexOf("/forward=1") != -1)  {  
             digitalWrite(in1, HIGH); //Start first motor
@@ -136,22 +135,22 @@ void loop()
           }
            
    
-  // Return the response
-  client.println("HTTP/1.1 200 OK");
-  client.println("Content-Type: text/html");
-  client.println(""); //  do not forget this one
-  client.println("<!DOCTYPE HTML>");
-  client.println("<html>");
-  client.println("<h1 align=center>Nast AI Delivery Robot</h1>");
-  client.println("<h2 align=center>WiFi Based Obstacle detection robot</h2>");
-  client.println("<br><br>");
-  client.println("<p align=center><a href=\"/forward=1\"\"><button><h1>  Forward  </h1></button></a></p><br/>");
-  client.println("<p align=center><a href=\"/stop=1\"\" ><button><h1>   Stop    </h1></button></a></p><br/>");
-  client.println("<p align=center><a href=\"/backward=1\"\" ><button> <h1>  Reverse  </h1></button></a></p><br/>");
-  client.println("</html>");
-  delay(1);
-  Serial.println("Client disonnected");
-  Serial.println("");
+          // Return the response
+          client.println("HTTP/1.1 200 OK");
+          client.println("Content-Type: text/html");
+          client.println(""); //  do not forget this one
+          client.println("<!DOCTYPE HTML>");
+          client.println("<html>");
+          client.println("<h1 align=center>Nast AI Delivery Robot</h1>");
+          client.println("<h2 align=center>WiFi Based Obstacle detection robot</h2>");
+          client.println("<br><br>");
+          client.println("<p align=center><a href=\"/forward=1\"\"><button><h1>  Forward  </h1></button></a></p><br/>");
+          client.println("<p align=center><a href=\"/stop=1\"\" ><button><h1>   Stop    </h1></button></a></p><br/>");
+          client.println("<p align=center><a href=\"/backward=1\"\" ><button> <h1>  Reverse  </h1></button></a></p><br/>");
+          client.println("</html>");
+          delay(1);
+          Serial.println("Client disonnected");
+          Serial.println("");
     }  
   delay(0);
 }
