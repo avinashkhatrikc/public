@@ -11,6 +11,7 @@ const int in3 = D7;
 const int in4 = D8;
 const int ENA= D0;
 const int ENB= D1;
+const int buzz=D2;
 
 WiFiServer server(80);
 void setup() 
@@ -24,6 +25,7 @@ void setup()
   pinMode (in4, OUTPUT);
   pinMode (ENA, OUTPUT);
   pinMode (ENB, OUTPUT);
+  pinMode (buzz, OUTPUT);
 
   
   Serial.println();
@@ -89,6 +91,7 @@ void loop()
            if (request.indexOf("/forward") != -1)  {  
                                 if(dis<25)
                         {
+                          digitalWrite(buzz, HIGH); 
                           analogWrite(ENA,900);
                           analogWrite(ENB, 900);
                           digitalWrite(in1, HIGH); 
@@ -97,13 +100,16 @@ void loop()
                           digitalWrite(in4, HIGH);
                            delay(1000);
                           //stop
+                          
                           digitalWrite(in1, LOW); 
                           digitalWrite(in3, LOW); 
                           digitalWrite(in2, LOW); 
                           digitalWrite(in4, LOW);
+                          //digitalWrite(buzz, LOW); 
+                              }
+                         
                           
-                          
-                        }
+                        
 
             analogWrite(ENA,900);
             analogWrite(ENB, 900);          
@@ -117,6 +123,7 @@ void loop()
                           digitalWrite(in3, LOW); 
                           digitalWrite(in2, LOW); 
                           digitalWrite(in4, LOW);
+                          digitalWrite(buzz, LOW); 
 
             
           }
@@ -149,7 +156,7 @@ void loop()
     
           }
 
-          if (request.indexOf("/left") != -1)  {
+          if (request.indexOf("/right") != -1)  {
           analogWrite(ENA,900);
           analogWrite(ENB, 900);
           digitalWrite(in1, HIGH); 
@@ -166,16 +173,120 @@ void loop()
         
           }
 
-          if (request.indexOf("/right") != -1)  {
+          if (request.indexOf("/left") != -1)  {
 
-          analogWrite(ENA,1020);
-          analogWrite(ENB, 1024);
+          analogWrite(ENA,900);
+          analogWrite(ENB, 900);
             
           digitalWrite(in1, LOW); 
           digitalWrite(in2, HIGH); 
           digitalWrite(in3, LOW); 
           digitalWrite(in4, HIGH);
           delay(1000);
+                          //stop
+          digitalWrite(in1, LOW); 
+          digitalWrite(in3, LOW); 
+          digitalWrite(in2, LOW); 
+          digitalWrite(in4, LOW);
+          
+       
+          }
+          if (request.indexOf("/speedRight") != -1)  {
+          analogWrite(ENA,1024);
+          analogWrite(ENB, 1024);
+          digitalWrite(in1, HIGH); 
+          digitalWrite(in2, LOW); 
+          digitalWrite(in3, HIGH); 
+          digitalWrite(in4, LOW);
+          delay(400);
+                          //stop
+          digitalWrite(in1, LOW); 
+          digitalWrite(in3, LOW); 
+          digitalWrite(in2, LOW); 
+          digitalWrite(in4, LOW);
+          
+        
+          }
+
+          if (request.indexOf("/left950") != -1)  {
+
+          analogWrite(ENA,950);
+          analogWrite(ENB, 950);
+            
+          digitalWrite(in1, LOW); 
+          digitalWrite(in2, HIGH); 
+          digitalWrite(in3, LOW); 
+          digitalWrite(in4, HIGH);
+          delay(800);
+                          //stop
+          digitalWrite(in1, LOW); 
+          digitalWrite(in3, LOW); 
+          digitalWrite(in2, LOW); 
+          digitalWrite(in4, LOW);
+          
+       
+          }
+          if (request.indexOf("/right950") != -1)  {
+          analogWrite(ENA,950);
+          analogWrite(ENB, 950);
+          digitalWrite(in1, HIGH); 
+          digitalWrite(in2, LOW); 
+          digitalWrite(in3, HIGH); 
+          digitalWrite(in4, LOW);
+          delay(800);
+                          //stop
+          digitalWrite(in1, LOW); 
+          digitalWrite(in3, LOW); 
+          digitalWrite(in2, LOW); 
+          digitalWrite(in4, LOW);
+          
+        
+          }
+
+          if (request.indexOf("/left1000") != -1)  {
+
+          analogWrite(ENA,1000);
+          analogWrite(ENB, 1000);
+            
+          digitalWrite(in1, LOW); 
+          digitalWrite(in2, HIGH); 
+          digitalWrite(in3, LOW); 
+          digitalWrite(in4, HIGH);
+          delay(600);
+                          //stop
+          digitalWrite(in1, LOW); 
+          digitalWrite(in3, LOW); 
+          digitalWrite(in2, LOW); 
+          digitalWrite(in4, LOW);
+          
+       
+          }if (request.indexOf("/right1000") != -1)  {
+          analogWrite(ENA,1000);
+          analogWrite(ENB, 1000);
+          digitalWrite(in1, HIGH); 
+          digitalWrite(in2, LOW); 
+          digitalWrite(in3, HIGH); 
+          digitalWrite(in4, LOW);
+          delay(600);
+                          //stop
+          digitalWrite(in1, LOW); 
+          digitalWrite(in3, LOW); 
+          digitalWrite(in2, LOW); 
+          digitalWrite(in4, LOW);
+          
+        
+          }
+
+          if (request.indexOf("/speedLeft") != -1)  {
+
+          analogWrite(ENA,1024);
+          analogWrite(ENB, 1024);
+            
+          digitalWrite(in1, LOW); 
+          digitalWrite(in2, HIGH); 
+          digitalWrite(in3, LOW); 
+          digitalWrite(in4, HIGH);
+          delay(400);
                           //stop
           digitalWrite(in1, LOW); 
           digitalWrite(in3, LOW); 
@@ -200,6 +311,8 @@ void loop()
   client.println("<p align=center><a href=\"/backward\"\" ><button> <h1>  Reverse  </h1></button></a></p><br/>");
   client.println("<p align=center><a href=\"/right\"\" ><button><h1>   Right    </h1></button></a></p><br/>");
   client.println("<p align=center><a href=\"/left\"\" ><button> <h1>  Left  </h1></button></a></p><br/>");
+  client.println("<p align=center><a href=\"/speedRight\"\" ><button><h1>   Speed Right    </h1></button></a></p><br/>");
+  client.println("<p align=center><a href=\"/speedLeft\"\" ><button> <h1>  Speed Left  </h1></button></a></p><br/>");
   client.println("</html>");
   delay(1);
   Serial.print("Client disonnected");
